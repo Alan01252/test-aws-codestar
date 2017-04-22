@@ -13,13 +13,15 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm install unit.js
+      - npm install mochawesome
 
   build:
     commands:
-      - mocha
+      - mocha --reporter mochawesome --reporter-options inlineAssets=true
       - aws s3 cp --recursive public/ s3://$WEBSITE_S3_BUCKET/public/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
       - sed -i -e "s|assets/|$WEBSITE_S3_PREFIX/public/assets/|g" public/index.html
       - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.json
+      - aws s3 cp mochawesome-reports $S3_BUCKET --recursive
 
 artifacts:
   type: zip
