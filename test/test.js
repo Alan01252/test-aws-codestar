@@ -22,7 +22,7 @@ describe('Learning by the example', function(){
       .then('test the "example" object', function(){
         test
           .object(example)
-            .hasValue('developper')
+            .hasValue('developpper')
             .hasProperty('name')
             .hasProperty('from', 'France')
             .contains({message: 'hello world'})
